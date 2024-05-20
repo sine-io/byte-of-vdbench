@@ -1,126 +1,3 @@
-# 1. 前言
-
-Vdbench是一款I/O负载生成工具，作者是Oracle的Henk Vandenbergh，它用于测试和评估裸设备、文件系统的性能。使用Java语言开发，适配过`Solaris Sparc`和`x86`、`各版本Windows`、`HP/UX`、`AIX`、`Linux`、`Mac OS X`、`zLinux`和`RaspBerry Pi`等操作系统。
-
-> 注：新版本的Vdbench，可能没有适配全部的OS，此时请阅读对应目录中的`readme.txt`文件，按需进行Java JNI C编译即可。
-
-
-
-# 2. 安装
-
-从[Oracle网站](https://www.oracle.com/downloads/server-storage/vdbench-downloads.html)下载`Vdbench (5.04.07)`安装包（压缩包，zip格式），解压后长这样：
-
-```shell
-# 测试环境OS：CentOS Linux release 7.9.2009 (Core)
-[root@node1 ~]# unzip vdbench50407.zip -d vdbench50407
-
-[root@node1 ~]# cd vdbench50407
-
-[root@node1 vdbench50407]# ls -alh 
-total 2.6M
-drwxr-xr-x  11 root root 4.0K Apr  9 10:11 .
-dr-xr-x---. 17 root root 4.0K Apr  9 10:09 ..
-drwxrwxrwx   2 root root   24 Jun  5  2018 aix
--rwxrwxrwx   1 root root 1.2K Aug  7  2012 build_sds.txt
-drwxrwxrwx   6 root root   75 Jun  5  2018 classes
--rwxrwxrwx   1 root root  429 Jun 14  2013 example1
--rwxrwxrwx   1 root root  500 Jun 14  2013 example2
--rwxrwxrwx   1 root root  671 Jun 14  2013 example3
--rwxrwxrwx   1 root root  698 Jun 14  2013 example4
--rwxrwxrwx   1 root root  574 Jun 14  2013 example5
--rwxrwxrwx   1 root root  498 Jun 14  2013 example6
--rwxrwxrwx   1 root root 1.5K Jun 14  2013 example7
-drwxrwxrwx   4 root root   71 Aug  7  2012 examples
-drwxrwxrwx   2 root root   24 Jun  5  2018 hp
-drwxrwxrwx   2 root root   77 Jun  5  2018 linux
-drwxrwxrwx   2 root root   24 Jun  5  2018 mac
--rwxrwxrwx   1 root root 1.6K Jun  5  2018 readme.txt
-drwxrwxrwx   2 root root   59 Jun  5  2018 solaris
-drwxrwxrwx   2 root root   63 Jun  5  2018 solx86
--rwxrwxrwx   1 root root  473 Oct 19  2013 swatcharts.txt
--rwxrwxrwx   1 root root 1.3K Jul 15  2016 vdbench
--rwxrwxrwx   1 root root 1.2K Jun  5  2018 vdbench.bat
--rwxrwxrwx   1 root root 982K Jun  5  2018 vdbench.jar
--rwxrwxrwx   1 root root 1.6M Jun  5  2018 vdbench.pdf
-drwxrwxrwx   2 root root   48 Jun  5  2018 windows
-```
-
-由于它使用Java语言开发，所以咱还需要准备Java环境（<font color="#FF00000">建议1.8及以上版本</font>）。
-
-```shell
-[root@node1 vdbench50407]# java -version 
-openjdk version "1.8.0_292"
-OpenJDK Runtime Environment (build 1.8.0_292-b10)
-OpenJDK 64-Bit Server VM (build 25.292-b10, mixed mode)
-```
-
-执行测试命令验证Vdbench所需环境是否装好：
-
-```shell
-# linux
-# 测试裸I/O工作负载
-[root@node1 vdbench50407]# ./vdbench -t
-Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
-Vdbench distribution: vdbench50407 Tue June 05  9:49:29 MDT 2018
-For documentation, see 'vdbench.pdf'.
-...
-10:14:35.871 Vdbench execution completed successfully. Output directory: /root/vdbench50407/output 
-
-# 或者执行
-# 测试文件系统工作负载
-[root@node1 vdbench50407]# ./vdbench -tf
-Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
-Vdbench distribution: vdbench50407 Tue June 05  9:49:29 MDT 2018
-For documentation, see 'vdbench.pdf'.
-...
-10:15:43.257 Vdbench execution completed successfully. Output directory: /root/vdbench50407/output 
-
-
-# windows
-C:\Users\sine\Desktop\vdbench50407>vdbench.bat -t
-Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
-Vdbench distribution: vdbench50407 Tue June 05  9:49:29 MDT 2018
-For documentation, see 'vdbench.pdf'.
-...
-09:57:21.315 Vdbench execution completed successfully. Output directory: C:\Users\sine\Desktop\vdbench50407\output
-
-# 或者执行
-C:\Users\sine\Desktop\vdbench50407>vdbench.bat -tf
-Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
-Vdbench distribution: vdbench50407 Tue June 05  9:49:29 MDT 2018
-For documentation, see 'vdbench.pdf'.
-...
-09:58:48.564 Vdbench execution completed successfully. Output directory: C:\Users\sine\Desktop\vdbench50407\output
-```
-
-完成测试后，通过浏览器访问`./output/summary.html`，查看Vdbench生成的报告。
-
-> 注：后续测试环境的OS均为：CentOS7.9
-
-# 3. 测试
-
-验证完`Vdbench`的可执行环境没问题之后，我们开始测试工作。
-
-命令格式如下：
-
-```shell
-# Unix:
-/home/vdbench/vdbench –f parmfile
-
-# Windows:
-c:\vdbench\vdbench.bat –f parmfile
-```
-
-可以看到，这里面最重要的除了可执行参数，还有编写测试脚本或者叫参数配置文件（parmfile）。由于Vdbench可以测试裸设备和文件系统，这两者的参数配置文件又有所不同，咱们分开来说。
-
-
-
-
-
-
-
-
-
 # 参数文件详解
 
 ## 通用规范
@@ -428,8 +305,6 @@ rd=rd1,wd=wd*,elapsed=20,interval=1,iorate=max,threads=$threads
 # 会报错
 ```
 
-
-
 ### startcmd= and endcmd=
 
 也可以写成`start_cmd`和`end_cmd`
@@ -588,11 +463,7 @@ fsd=fsd1,anchor=./dir/abc,depth=1,width=1,files=10000,size=8k  # 这里是多级
 
 使用`report=no_sd_detail`可以完全禁止创建SD报告。
 
-
-
 待研究
-
-
 
 ### histogram=
 
@@ -795,13 +666,9 @@ rd=rd1,wd=wd*,elapsed=10,interval=1,iorate=max,thread=12
 # RD
 ```
 
-
-
 ### 回放组（RG）参数
 
 待整理
-
-
 
 ### 存储定义（SD）参数
 
@@ -1243,8 +1110,6 @@ drwxrwxrwx 1 nobody nobody   16 Apr 10 14:43 ..
 >
 > 可以看[这篇文章](https://zhuanlan.zhihu.com/p/622319148)的评论
 
-
-
 默认情况下，将使用整个SD。要限制工作负载的寻址范围，可以指定SD的起始和结束范围：`range=(40,60)`将限制`I/O`活动从SD的40%开始，到SD的60%结束。
 
 如果最大值大于100但小于200，Vdbench将认为这是在卷末端进行环绕。例如，使用range=(90,110)，Vdbench将生成一个I/O工作负载，使用卷最后的10%和卷开始的10%。
@@ -1398,8 +1263,6 @@ drwxrwxrwx 1 nobody nobody   16 Apr 10 14:43 ..
 有可能数据到系统缓存后，写操作就显示完毕了。这样会有很好的性能，但是并不代表真实的结果。
 
 Openflags可以针对SD、WD、FSD、FWD和RD参数进行设定，也可以创建任意的组合。
-
-
 
 这里只列取Linux和Windows的 --- 因为这俩最常用
 
@@ -1582,8 +1445,6 @@ extern jlong file_open(JNIEnv *env, const char *filename, int openflag, int writ
 > 
 >
 > 关于O_DIRECT 和 O_SYNC的试验，见[链接](https://www.cnblogs.com/wyk930511/p/7414229.html)
-
-
 
 ### 工作负载定义（WD）参数
 
@@ -1939,8 +1800,6 @@ rd=rd1,wd=wd*,elapsed=30,interval=5,iorate=max,threads=$threads
 #### priority=
 
 暂未测试
-
-
 
 ### 运行定义（RD）参数
 
@@ -2336,8 +2195,6 @@ if (rd.getElapsed() != RD_entry.NO_ELAPSED && rd.getElapsed() % rd.getInterval()
 
 与`seek=eof`结合时，
 
-
-
 #### ※ interval=nn
 
 报告时间间隔，单位`秒`
@@ -2639,8 +2496,6 @@ rd=rd2,startcmd=("echo rd2 start.",cons)
 
 这里先不研究，挺复杂的
 
-
-
 ## 针对 - 文件系统（File system）
 
 参数配置文件内容包含以下几部分：**General**, **HD, FSD, FWD**, **RD**
@@ -2768,8 +2623,6 @@ fsd=fsd2,anchor=/mnt/nfs1/testdir/
 ```
 
 如果不同`fsd`的`anchor`相同，那么目录结构（`depth=`和`width=`等参数）必须相同
-
-
 
 如果父目录不存在，需要指定`create_anchors=yes`参数
 
@@ -2969,13 +2822,9 @@ rd=step2,format=(restart,only)
 11:48:20.147 DIR_CREATE_SHARED   Shared directory already exists:                  6          0/sec
 ```
 
-
-
 注意：Vdbench官方手册中的这段话感觉不适用了
 
 > 当指定`format=yes`时，会删除已存在的文件结构。每个从机都会尝试删除所有文件，如果删除失败（其他`hd`删除了此文件），不会生成错误消息。但这些失败的删除操作会有统计（`Miscellaneous statistics`下的`FILE_DELETE_SHARED`）。这也会导致`FILE_DELETES`计数器的值＞实际存在的文件数。
-
-
 
 如果每次运行都要删除已有的文件，可以使用`startcmd="rm -rf /file/anchor"`来进行删除。<font color="#FF00000">但是，请注意Vdbench只会删除其生成的文件，而`rm -rf /root`会删除目录下的所有文件。</font>
 
@@ -3539,11 +3388,7 @@ protected boolean doOperation()
 
 ##### fileio=(seq,delete)
 
-
-
 除了顺序和随机I/O，暂时不知道其他细节，待分析源码后，进行补充，可以出个专题
-
-
 
 #### rdpct=
 
@@ -3559,11 +3404,7 @@ protected boolean doOperation()
 
 #### stopafter=
 
-
-
 #### ※ fileselect=
-
-
 
 ```java
 // FwdEntry.java
@@ -3640,8 +3481,6 @@ private void parseFileSelect(ArrayList <String> parms)
 }
 ```
 
-
-
 #### ※ xfersizes=
 
 默认值：4k
@@ -3677,8 +3516,6 @@ else if ("xfersizes".startsWith(prm.keyword))
 ```
 
 <font color="#FF00000">注意：源代码没做过多的限制，大家使用过程中，尽量选用跟场景符合的`xfersizes`</font>
-
-
 
 #### ※ operation=
 
@@ -5189,580 +5026,3 @@ wss=8m
 		|---> files=20	--- 执行顺序7
 		|---> files=26	--- 执行顺序8
 ```
-
-# 命令行参数详解
-
-## ※※※ -f xxx yyy zzz
-
-`-f`后面接参数文件（单个或多个均可），多个参数文件的顺序要符合参数文件顺序规则
-
-参数文件规则，详见`参数文件详解`
-
-```shell
-[root@node1 testinclude]# cat create_files 
-create_anchors=yes
-messagescan=no
-
-[root@node1 testinclude]# cat fsd 
-fsd=fsd1,anchor=./dir1,depth=1,width=1,files=10000,size=8k,shared=yes
-
-[root@node1 testinclude]# cat fwd 
-fwd=fwd1,fsd=fsd1,operation=read,threads=16
-
-[root@node1 testinclude]# cat rd 
-rd=rd1,fwd=fwd*,fwdrate=100,elapsed=5,interval=1,format=restart
-
-# 按顺序放好，就可以执行
-[root@node1 testinclude]# ../vdbench -f create_files fsd fwd rd
-
-# 如果打乱顺序，就会出现错误 --- 会出现找不到fsd
-# ../vdbench -f create_files fwd rd fsd
-```
-
-## ※ -o xxx
-
-结果输出目录，默认为当前目录下的`output`文件夹，文件夹不存在时会自动创建，存在时会先删除所有旧的`html`文件
-
-可以在目录名后添加一个`+`，例如 `-o dirname+`，每次执行测试，这个目录自动`+1`，最大自增到`999` --- `dirname001~dirname999`
-
-```shell
-[root@node1 vdbench50407]# ./vdbench -f testfile4 -o res+
-```
-
-还可以添加时间戳：`-o output.tod` --- 生成名叫`output.yymmdd.hhmmss`的目录
-
-```shell
-[root@node1 vdbench50407]# ./vdbench -f testfile4 -o res.tod
-...
-11:00:34.210 Created output directory '/root/vdbench50407/res.240506.110034'
-...
-```
-
-## ※ -t
-
-快速执行一次内置的测试（用于块，5秒） --- 常用于测试Vdbench是否可用
-
-```shell
-[root@node1 vdbench50407]# ./vdbench -t
-...
-11:02:22.633 input argument scanned: '-f/tmp/parmfile'
-11:02:22.704 Starting slave: /root/vdbench50407/vdbench SlaveJvm -m localhost -n localhost-10-240506-11.02.22.506 -l localhost-0 -p 5570   
-11:02:23.045 All slaves are now connected
-11:02:23.150 Vdbench will attempt to expand a disk file if the requested file size is a multiple of 1mb
-11:02:23.151 lun=/tmp/quick_vdbench_test does not exist or is too small. host=localhost
-11:02:24.002 Starting RD=SD_format; I/O rate: Uncontrolled MAX; elapsed=(none); For loops: threads=2 iorate=max
-11:02:24.118 All sequential workloads on all slaves are done.
-11:02:24.118 This triggers end of run inspite of possibly some non-sequential workloads that are still running.
-...
-11:02:26.002 Starting RD=rd1; I/O rate: 100; elapsed=5; For loops: None
-...
-11:02:32.520 Vdbench execution completed successfully. Output directory: /root/vdbench50407/output 
-```
-
-## ※ -tf
-
-快速执行一次内置的测试（用于文件，5秒） --- 常用于测试Vdbench是否可用
-
-```shell
-[root@node1 vdbench50407]# ./vdbench -tf
-...
-11:02:38.507 input argument scanned: '-f/tmp/parmfile'
-11:02:38.585 Anchor size: anchor=/tmp/fsd1: dirs:            1; files:          100; bytes:    12.500m (13,107,200)
-11:02:38.629 Starting slave: /root/vdbench50407/vdbench SlaveJvm -m localhost -n localhost-10-240506-11.02.38.351 -l localhost-0 -p 5570   
-11:02:38.981 All slaves are now connected
-11:02:39.048 localhost-0: Created anchor directory: /tmp/fsd1
-11:02:40.003 Starting RD=format_for_rd1
-11:02:40.038 localhost-0: anchor=/tmp/fsd1 mkdir complete.
-11:02:40.072 localhost-0: anchor=/tmp/fsd1 create complete.
-...                                           
-11:02:41.263 
-11:02:41.263 Miscellaneous statistics:
-11:02:41.263 (These statistics do not include activity between the last reported interval and shutdown.)
-11:02:41.264 FILE_CREATES        Files created:                                  100        100/sec
-11:02:41.264 DIRECTORY_CREATES   Directories created:                              1          1/sec
-11:02:41.264 WRITE_OPENS         Files opened for write activity:                100        100/sec
-11:02:41.264 DIR_BUSY_MKDIR      Directory busy (mkdir):                           1          1/sec
-11:02:41.265 DIR_EXISTS          Directory may not exist (yet):                    3          3/sec
-11:02:41.265 FILE_CLOSES         Close requests:                                 100        100/sec
-11:02:41.265 
-11:02:42.001 Starting RD=rd1; elapsed=5; fwdrate=100; For loops: None
-...
-11:02:47.257 Miscellaneous statistics:
-11:02:47.257 (These statistics do not include activity between the last reported interval and shutdown.)
-11:02:47.257 READ_OPENS          Files opened for read activity:                   8          1/sec
-11:02:47.257 WRITE_OPENS         Files opened for write activity:                  8          1/sec
-11:02:47.257 
-11:02:48.421 Vdbench execution completed successfully. Output directory: /root/vdbench50407/output
-```
-
-## -e nn
-
-临时改变`RD`里的`elapsed=`参数。
-
-在快速发现问题时非常有用。例如，创建了一个包含多个运行定义（RD）的24小时测试。如果存在问题，肯定不希望在运行了数小时后才发现。只需将测试的运行时间设置为几秒或几分钟，就可以快速检查一切是否正常。
-
-```shell
-[root@node1 vdbench50407]# ./vdbench -f testfile4 -o res+ -e 5
-```
-
-## -i nn
-
-临时改变`RD`里的`interval=`参数
-
-```shell
-[root@node1 vdbench50407]# ./vdbench -f testfile4 -o res+ -i 2
-```
-
-## -w nn
-
-临时改变`RD`里的`warmup=`参数
-
-```shell
-[root@node1 vdbench50407]# ./vdbench -f testfile4 -o res+ -w 5
-```
-
-## -m nn
-
-受CPU限制，单JVM能够处理的最大IOPS或线程数量有限。一个Java进程对应一个JVM，所以单进程完成任务有限，为了缓解这个情况，Vdbench会每10万个I/O请求（通过`ios_per_jvm=nnnn`修改）启动一个Slave进程。Slave进程的数量可以通过`-m nn`或`hd=default,jvms=nn`进行设置，或者Vdbench自动取`SDs`的个数和默认值（`8`）中的较小值。
-
-如果测试机器内存很小，设置很多个`JVMs`可能会出现问题，一个原则是将每个`JVM`的`IOPS`保持在10万以下即可，不要设置太多的`JVMs`
-
-除了顺序工作负载，每个工作负载均在每个`JVM`或`Slave`上执行。在每个Slave上执行顺序工作负载会导致每个Slave读取相同的顺序块，虽然性能值很高，但不是一个准确的顺序工作负载。因此，顺序工作负载会在每个可用的JVM/Slave上轮流执行。
-
-设置`JVMs`数量 --- 首选`hd=default,jvms=nn`或`hd=hostX,jvms=nn`参数。
-
-当每个`JVM`完成的`IOPS`超过`100,000`时，Vdbench会有警告输出，告诉你没有足够的活跃`JVM`，可以尝试增加这个值。
-
-对于文件系统，`Vdbench`不会自动设置`JVM/Slave`数量
-
-## -v
-
-开启数据验证，每次写入数据块时都会记录（内存）。
-
-对同一个数据块再次读取或写入时，验证该数据块的原内容。
-
-```java
-// Vdbmain.java
-else if (thisarg.startsWith("-v"))
-{
-    Validate.setValidate(); // 将 Validate.validate 设为 true
-    if (thisarg.contains("r")) Validate.setImmediateRead(); // 将 Validate.validate_immed 设为 true
-    if (thisarg.contains("2")) Validate.setImmediateRead(); // 同上
-    if (thisarg.contains("w")) Validate.setNoPreRead(); // 将 Validate.validate_nopreread 设为 true
-    if (thisarg.contains("t")) Validate.setStoreTime(); // 将 Validate.validate_time 设为 true
-    if (thisarg.contains("c"))
-    {
-        common.failure("'validate=continue' no longer supported");
-        Validate.setContinueOldMap();
-        return;
-    }
-
-}
-```
-
-
-
-### -vr
-
-待后续研究
-
-数据块写入后立即进行读取和验证
-
-在对大容量LUN进行I/O操作时，通常需要很长时间才会再次使用某个数据块，因此，使用`-vr`可能有助于快速确认数据是否正确。
-
-注意，数据库写入后立即读取验证，可能出现数据达到了文件系统或存储控制器缓存，没有真实落盘的情况。
-
-### -vw
-
-待后续研究
-
-数据块再次被写入时，才进行读取验证
-
-### -vt
-
-待后续研究
-
-在内存中保存最后一次成功读取或写入的时间戳（不支持日志记录）。当该数据块出现故障时，将报告此时间戳。知道数据块在哪个时间点是正常的有助于识别可能导致问题的错误注入。
-
-注意：每个数据块额外需要8字节的Java堆内存（因此，对于512字节的数据块，内存需求可能会过高）。目前设置了一个内部限制，最多允许31位的数据块，大约16GB的Java堆内存。
-
-## -j
-
-创建日志文件，后续可用于数据验证
-
-```java
-// Vdbmain.java
-else if (thisarg.startsWith("-j"))
-{
-    Validate.setValidate(); // 将 Validate.validate 设为 true
-    Validate.setJournaling(); // 将 Validate.journal_active 设为 true
-
-    if (thisarg.contains("r")) Validate.setJournalRecovery(); // 将 Validate.journal_recovery 设为 true
-    if (thisarg.contains("n")) Validate.setNoJournalFlush(); // 将 Validate.journal_flush 设为 false
-    if (thisarg.contains("m")) Validate.setMapOnly(); // 将 Validate.journal_maponly 设为 true
-    if (thisarg.contains("o")) Validate.setRecoveryOnly(); // 将 Validate.journal_rec_only 设为 true
-    if (thisarg.contains("2")) Validate.setImmediateRead(); // 将 Validate.validate_immed 设为 true
-    if (thisarg.contains("t")) Validate.setStoreTime(); // 将 Validate.validate_time 设为 true
-    if (thisarg.contains("i")) Validate.setIgnorePending(); // 将 Validate.ignore_pending 设为 true
-    if (thisarg.contains("s")) Validate.setSkipRead(); // 将 Validate.skip_data_read 设为 true
-}
-```
-
-
-
-### -jr
-
-
-
-#### -jro
-
-
-
-#### -jri
-
-
-
-### -jm
-
-
-
-### -jn
-
-
-
-## -s
-
-工作负载模拟，不真实执行
-
-当不确定你定义的参数文件是否符合预期时，可以用这个参数测试一下
-
-## -k
-
-Solaris系统专属，暂未涉及，跳过。
-
-
-
-## -c
-
-执行RD之前，删除FSD的预埋数据
-
-<font color="#FF00000">注意：虽然看了源码，但是执行不符合预期，再没有确切搞懂它真正使用方式之前，建议不要使用</font>
-
-```java
-// Vdbmain.java
-else if (thisarg.startsWith("-c"))
-{
-    if (     thisarg.indexOf("o") != -1) force_format_only    = true;
-    else if (thisarg.indexOf("y") != -1) force_format_yes     = true;
-    else if (thisarg.indexOf("n") != -1) force_format_no      = true;
-    else /*                         */   force_fsd_cleanup    = true;
-}
-```
-
-```java
-// FwgRun.java
-
-/* Do a forced cleanup (-c execution parameter) the first time we get anchor: */
-for (int i = 0; i < fwgs_for_slave.size(); i++)
-{
-    FwgEntry fwg = (FwgEntry) fwgs_for_slave.elementAt(i);
-    if (first_time_map.get(fwg.anchor.getAnchorName()) == null)
-    {
-        if (work.force_fsd_cleanup)
-        {
-            common.ptod("Deleting old file structure because of forced cleanupOldFiles ('-c').");
-            fwg.anchor.setDeletePending(true);
-        }
-    }
-    first_time_map.put(fwg.anchor.getAnchorName(), fwg.anchor.getAnchorName());
-}
-```
-
-### -co
-
-同`format=only`，覆盖参数文件里的`foramt=`参数
-
-### -cy
-
-同`format=yes`，覆盖参数文件里的`foramt=`参数
-
-### -cn
-
-同`format=no`，覆盖参数文件里的`foramt=`参数
-
-## -p nnn
-
-设置Vdbench的socket端口（默认5570）
-
-```shell
-[root@node1 vdbench50407]# ./vdbench -f testfile4 -p 1111
-```
-
-## -l nnn --- 小写L
-
-重复执行所有RDs，注意，是所有
-
-`-l` --- 死循环，一直执行
-
-`-l nnn` --- 执行nnn秒，也可以后面添加单位`s/m/h`，代表执行`nnn seconds/minutes/hours`，如：-l 24h
-
-```java
-// Vdbmain.java
-
-/**
-   * -l nnn parameter.
-   * Without 'nn', loop is endless, with it ends after 'nn' seconds.
-   */
-private static void scanLoopParameter(String parm)
-{
-    loop_all_runs = true;
-    if (parm.equals("-l"))
-        return;
-
-    String number = parm.substring(2);
-
-    int multiplier = 1;
-    if (number.endsWith("s"))
-    {
-        multiplier = 1;
-        number = number.substring(0, number.length() -1);
-    }
-    else if (number.endsWith("m"))
-    {
-        multiplier = 60;
-        number = number.substring(0, number.length() -1);
-    }
-    else if (number.endsWith("h"))
-    {
-        multiplier = 3600;
-        number = number.substring(0, number.length() -1);
-    }
-    else if (!common.isNumeric(number))
-    {
-        common.failure("Expecting no parameter or a numeric paramater after '-l': " + parm);
-    }
-
-    loop_duration = Long.parseLong(number) * multiplier;
-    loop_duration *= 1000;
-}
-```
-
-```java
-public static boolean shutDownAfterLoops(long first_start_tod)
-{
-	...
-    if (System.currentTimeMillis() - first_start_tod > Vdbmain.loop_duration)
-    {
-        BoxPrint.printOne("Terminating loop run after %d seconds",
-                          (System.currentTimeMillis() - first_start_tod) / 1000);
-        return true;
-    }
-
-    return false;
-}
-
-// 第4行
-// 当所有RDs运行总时间 × LOOP ＞ nnn时，会停止下一次LOOP
-```
-
-注意，`loop=`参数，当没单位时，是定义的`loop`次数，这个跟`-l`参数不一样，谨记！
-
-注意，当定义了`loop=`参数时，再使用`-l`参数，以`loop=`参数为准。究其原因，是`-l`参数先被解析，参数文件后被解析，后者把前者覆盖了
-
-```java
-// Vdbmain.java
-
-/* Get execution parameters:   */
-pdm_output = PdmStart.lookForOutputDir(args);
-check_args(args);
-RshDeamon.readPortNumbers();
-
-/* Parse everything we've got: */
-parms_report = Report.createHmtlFile("parmscan.html");
-//Vdb_scan.copy_file = Report.createHmtlFile("parmfile.html");
-Report.getSummaryReport().printHtmlLink("Copy of input parameter files",
-                                        "parmfile", "parmfile");
-Report.getSummaryReport().printHtmlLink("Copy of parameter scan detail",
-                                        "parmscan", "parmscan");
-/* Just in case we die very early: */
-Report.flushAllReports();
-
-Vdb_scan.Vdb_scan_read(parm_files, true);
-parseParameterLines();
-
-// 第5行，解析可执行参数 --- 着重看里面的 scan_args(nargs) ---> scanLoopParameter(thisarg)
-// 第19行，解析参数文件 --- 着重看 MiscParms.readParms()
-```
-
-## -r rdname
-
-如果参数文件中定义了许多个`RDs`，那么`-r rdname`参数代表从`rdname`开始执行，将`rdname`之前的`RDs`都从执行队列中移除
-
-```shell
-[root@node1 vdbench50407]# cat testfile4 
-create_anchors=yes
-messagescan=no
-
-fsd=fsd,depth=1,width=1,files=10,sizes=1m,openflags=o_sync,
-anchor=/mnt/shareDir/standard-nfs001/30122dir
-
-fwd=default,fileio=random,fileselect=random,threads=16,xfersizes=1m
-fwd=fwd1,fsd=fsd*
-
-rd=default,fwdrate=1,elapsed=10,interval=1,format=yes
-rd=rd1,fwd=fwd*
-rd=rd2,fwd=fwd*
-rd=rd3,fwd=fwd*
-
-# 第12、13、14行，总共包含3个RD
-# 执行结果 --- 从RD2开始执行，RD1不执行
-[root@node1 vdbench50407]# ./vdbench -f testfile4 -r rd2
-# 执行结果 --- 从RD3开始执行，RD1和RD2不执行
-[root@node1 vdbench50407]# ./vdbench -f testfile4 -r rd3
-```
-
-源码如下，喜欢研究源码的可以看看
-
-```java
-// RD_entry.java
-
-/**
-   * The '-r rdname' parameter:
-   * Removes ALL RDs found before this RD.
-   */
-private static void keepRestart(Vector <RD_entry> new_list)
-{
-    for (int i = 0; i < new_list.size(); i++)
-    {
-        RD_entry rd = new_list.get(i);
-        if (rd.rd_name.startsWith(SD_entry.SD_FORMAT_NAME))
-            common.failure("Skipping rd=%s during restart is not allowed.", rd.rd_name);
-
-        else if (rd.rd_name.startsWith(FSD_FORMAT_RUN))
-            common.failure("Skipping rd=%s during restart is not allowed.", rd.rd_name);
-
-        if (rd.rd_name.startsWith(restart_rd))
-            break;
-        new_list.set(i, null);
-    }
-
-    while (new_list.remove(null));
-    if (new_list.size() == 0)
-        common.failure("Restart rd=%s not found", restart_rd);
-}
-```
-
-## xxx=yyy …..
-
-变量替换，可以在参数文件中使用变量（如：`$lun`），然后可以通过命令行进行替换。
-
-参数文件内只要设置了参数，就必须通过命令行进行赋值；相同的道理，命令行给变量赋值，参数文件中也必须得找得到，否则Vdbench都会停止运行
-
-```shell
-# 参数文件里设置变量
-sd=sd1,lun=$lun
-
-# 执行时进行变量赋值
-./vdbench –f parmfile lun=/dev/x
-```
-
-如果参数文件嵌入`shell`脚本中，您还可以使用`!`来防止脚本语言意外替换变量，例如 `sd=sd1,lun=!lun`
-
-```shell
-# 这种情况没遇到过，遇到了再补充。
-```
-
-# 实用命令详解
-
-```shell
-./vdbench [compare] [csim] [dsim] [edit] [jstack] [parse] [print] [rsh] [sds] [showlba]
-```
-
-部分命令是带GUI界面的，由于我的Linux测试机没装GUI界面，所以相关命令用Windows来测试
-
-## ./vdbench sds
-
-
-
-## ./vdbench jstack
-
-
-
-## ./vdbench rsh
-
-
-
-
-
-
-
-## ./vdbench print
-
-
-
-## ./vdbench edit
-
-
-
-
-
-## ./vdbench compare
-
-
-
-## ./vdbench parse
-
-
-
-## ./vdbench csim
-
-
-
-## ./vdbench dsim
-
-
-
-## ./vdbench printjournal
-
-
-
-## ./vdbench showlba
-
-
-
-
-
-
-
-# 其他
-
-
-
-# 附录
-
-
-
-## 源码解析
-
-
-
-### File system
-
-`FwgThread`类继承自 `Java`原生`Thread`类
-
-`OpWrite`、`OpRead`等操作类继承自`FwgThread`类
-
-`Thread`类调用`start()`方法的结果是 --- 最终调用类中的`run()`方法 --- 详见[链接](https://blog.csdn.net/qq_21383435/article/details/123021752)
-
-```java
-
-```
-
-
-
-### forxxx参数源码分析
-
-```java
-// For_loop.java
-```
-
