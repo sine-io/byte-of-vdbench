@@ -102,9 +102,9 @@ For documentation, see 'vdbench.pdf'.
 c:\vdbench\vdbench.bat –f parmfile -o res+
 ```
 
-> 命令里的`-f`和`-o`都是可执行参数，想知道可执行参数的更多细节，请参考[命令行参数详解](zh-cn/hero/execution-parameter-detail.md)
+> 命令里的`-f`和`-o`都是可执行参数，想知道可执行参数的更多细节，请参考[命令行参数详解](../hero/execution-parameter-detail.md)
 >
-> 除了可执行参数，还有非常重要的事项 --- 编写测试脚本或者叫参数配置文件（`parmfile`），想知道参数配置文件有哪些参数，该怎么用，请参考[参数文件详解](zh-cn/hero/parameter-file-detail.md)
+> 除了可执行参数，还有非常重要的事项 --- 编写测试脚本或者叫参数配置文件（`parmfile`），想知道参数配置文件有哪些参数，该怎么用，请参考[参数文件详解](../hero/parameter-file-detail.md)
 
 `Vdbench`主要依靠参数配置文件（`-f`参数后面接的文件）来执行任务，编写参数配置文件对于新手极度不友好。还好`Vdbench`提供了很多**样例**，经过样例学习和分析，我们可以快速开展我们自己的测试工作。样例位于`Vdbench`安装目录下：
 
@@ -167,7 +167,8 @@ drwxrwxrwx 4 root root   71 Aug  7  2012 ..
 -rwxr-xr-x 1 root root  842 Jun 14  2013 tpcc
 ```
 
-!> 建议把`example1~7`多看几遍，多执行几遍。注意：执行过程中不要把自己重要数据给删除了，因为会有写操作。
+!!! warning
+    建议把`example1~7`多看几遍，多执行几遍。注意：执行过程中不要把自己重要数据给删除了，因为会有写操作。
 
 从前文知道`Vdbench`可以测试块存储和文件系统的性能，那咱分别找一个对应的样例来进行分析。
 
@@ -241,9 +242,10 @@ rd=run1,wd=wd1,iorate=100,elapsed=10,interval=1
 # 第21行，lun我修改成了/dev/sda，并添加了openflags参数
 ```
 
-!> 注意不要用系统盘，用一个没用的盘开展测试
+!!! warning
+    注意不要用系统盘，用一个没用的盘开展测试。
 
-!> `Vdbench`程序里定义`lun`是`/dev`开头的时候，需要在配置文件中添加`openflags=o_direct`参数，所以我也添加上了
+    `Vdbench`程序里定义`lun`是`/dev`开头的时候，需要在配置文件中添加`openflags=o_direct`参数，所以我也添加上了。
 
 执行测试（结果我省略了一部分）：
 
@@ -283,7 +285,8 @@ drwxr-xr-x. 44 root root 4.0K May  8 18:03 ..
 -rwxrwxrwx   1 root root  658 May  8 18:03 totals.html
 ```
 
-!> 各个报告详解，请看[结果分析](#结果分析)
+!!! info
+    各个报告详解，请看[结果分析](#results-analysis)。
 
 - 文件系统
 
@@ -438,6 +441,7 @@ rd=rd1,fwd=fwd1,fwdrate=100,format=yes,elapsed=10,interval=1
 # 第26行，执行成功，结果位于res002
 ```
 
-!> 各个报告详解，请看[结果分析](#结果分析)
+!!! info
+    各个报告详解，请看[结果分析](#results-analysis)。
 
-## 结果分析
+## 结果分析 { #results-analysis }
