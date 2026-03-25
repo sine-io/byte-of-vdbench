@@ -25,4 +25,4 @@ mkdocs build
 推送到 `main` 分支后，`.github/workflows/deploy.yml` 会自动构建并发布到 `GitHub Pages`。
 
 默认发布地址：
-`https://sine-io.github.io/byte-of-vdbench/`
+`https://www.sineio.top/byte-of-vdbench/`
