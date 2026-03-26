@@ -1,8 +1,8 @@
 # 介绍
 
-`Vdbench`是一款`I/O`负载生成工具，作者是`Oracle`的 `Henk Vandenbergh`，用于测试和评估块设备和文件系统的基准性能，还可以验证数据完整性。它集成了详细的报告机制，通过浏览器即可查看报告（`HTML`格式）。它使用`Java`语言开发，曾适配过`Solaris`、`各版本Windows`、`HP/UX`、`AIX`、`Linux`、`Mac OS X`、`zLinux`和`RaspBerry Pi`等众多平台。
+`Vdbench` 是一款 `I/O` 负载生成工具，作者是 `Oracle` 的 `Henk Vandenbergh`，用于测试和评估块设备与文件系统的基准性能，也支持数据完整性验证。它自带较完整的报告输出，执行结束后可直接查看生成的 `HTML` 报告。
 
-> 注：上述平台众多，无奈`Henk`老哥手边不可能全有...... 所以版本迭代过程中，新版本的`Vdbench`，并没有适配上述所有平台。但是请放心，它至少包含三个平台（`Windows`、`Linux(x86)`、`Solaris`），如果有其他平台需求，请阅读对应目录中的`readme.txt`文件，按需进行`Java JNI C`编译。
+> 注：历史版本曾覆盖很多平台，但并非每个新版本都同时维护了这些适配。至少 `Windows`、`Linux(x86)`、`Solaris` 在发布包中是可见的；其他平台需要结合对应目录中的 `readme.txt` 和源码自行确认。
 
 ```shell
 [root@node1 vdbench50407]# ls -alh 
@@ -26,4 +26,15 @@ I need a volunteer to do a small C compile and link.
 Email me at Henk.Vandenbergh@oracle.com
 ```
 
-如何进行编译呢？见xxx
+## 读完这一页后做什么
+
+如果你是第一次接触 `Vdbench`，下一步建议直接阅读 [快速开始](quickstart.md)：
+
+- 先确认 `Java` 和 `Vdbench` 是否能正常运行
+- 先跑通 `-t` 和 `-tf`
+- 再看 `example1` 和 `example7`
+
+如果你已经能跑通基本样例，可以继续看：
+
+- [结果分析](results-analysis.md)
+- [参数文件详解](../hero/parameter-file-detail.md)

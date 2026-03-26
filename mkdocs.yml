@@ -40,13 +40,19 @@ markdown_extensions:
 
 nav:
   - 首页: index.md
-  - 说明: zh-cn/README.md
+  - 阅读指南: zh-cn/README.md
   - 新手村:
       - 介绍: zh-cn/zero/introduction.md
       - 快速开始: zh-cn/zero/quickstart.md
+      - 结果分析: zh-cn/zero/results-analysis.md
   - 进阶营:
       - 参数文件详解: zh-cn/hero/parameter-file-detail.md
+      - 参数文件基础: zh-cn/hero/parameter-file-basics.md
+      - Raw I/O 参数详解: zh-cn/hero/raw-parameter-detail.md
+      - File System 参数详解: zh-cn/hero/filesystem-parameter-detail.md
+      - 脚本模板: zh-cn/hero/script-templates.md
+      - 官方样例索引: zh-cn/hero/example-map.md
       - 命令行参数详解: zh-cn/hero/execution-parameter-detail.md
+      - 常见场景: zh-cn/hero/scenarios.md
       - 实用命令详解: zh-cn/hero/utility-functions-detail.md
-      - 其他: zh-cn/hero/others.md
   - 附录: zh-cn/hero/appendix.md

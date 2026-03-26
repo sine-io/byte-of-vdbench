@@ -39,7 +39,7 @@ drwxrwxrwx   2 root root   63 Jun  5  2018 solx86
 drwxrwxrwx   2 root root   48 Jun  5  2018 windows
 ```
 
-由于它使用`Java`语言开发，所以咱还需要准备`Java`环境（<font color="#FF00000">建议`1.8`及以上版本</font>）
+由于它使用 `Java` 语言开发，所以还需要准备 `Java` 环境。官方 `readme.txt` 标注的最低要求是 `1.7.0`，实际使用中建议至少准备 `1.8`。
 
 ```shell
 [root@node1 vdbench50407]# java -version 
@@ -96,15 +96,17 @@ For documentation, see 'vdbench.pdf'.
 
 ```shell
 # Unix:
-/home/vdbench/vdbench –f parmfile -o res+
+/home/vdbench/vdbench -f parmfile -o res+
 
 # Windows:
-c:\vdbench\vdbench.bat –f parmfile -o res+
+c:\vdbench\vdbench.bat -f parmfile -o res+
 ```
 
 > 命令里的`-f`和`-o`都是可执行参数，想知道可执行参数的更多细节，请参考[命令行参数详解](../hero/execution-parameter-detail.md)
 >
 > 除了可执行参数，还有非常重要的事项 --- 编写测试脚本或者叫参数配置文件（`parmfile`），想知道参数配置文件有哪些参数，该怎么用，请参考[参数文件详解](../hero/parameter-file-detail.md)
+>
+> 如果你已经想自己写第一份脚本，也可以直接对照[脚本模板](../hero/script-templates.md)改。
 
 `Vdbench`主要依靠参数配置文件（`-f`参数后面接的文件）来执行任务，编写参数配置文件对于新手极度不友好。还好`Vdbench`提供了很多**样例**，经过样例学习和分析，我们可以快速开展我们自己的测试工作。样例位于`Vdbench`安装目录下：
 
@@ -286,7 +288,7 @@ drwxr-xr-x. 44 root root 4.0K May  8 18:03 ..
 ```
 
 !!! info
-    各个报告详解，请看[结果分析](#results-analysis)。
+    各个报告详解，请看[结果分析](results-analysis.md)。
 
 - 文件系统
 
@@ -442,6 +444,13 @@ rd=rd1,fwd=fwd1,fwdrate=100,format=yes,elapsed=10,interval=1
 ```
 
 !!! info
-    各个报告详解，请看[结果分析](#results-analysis)。
+    各个报告详解，请看[结果分析](results-analysis.md)。
 
-## 结果分析 { #results-analysis }
+## 下一步
+
+如果你已经能跑通 `example1` 或 `example7`，推荐按这个顺序继续：
+
+1. [结果分析](results-analysis.md)
+2. [参数文件详解](../hero/parameter-file-detail.md)
+3. [脚本模板](../hero/script-templates.md)
+4. [官方样例索引](../hero/example-map.md)
