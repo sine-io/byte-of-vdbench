@@ -16,7 +16,14 @@
 4. [参数文件详解](hero/parameter-file-detail.md)
 5. [脚本模板](hero/script-templates.md)
 6. [官方样例索引](hero/example-map.md)
-7. 再按自己的场景选择 `Raw I/O`、`File System`、`命令行参数`、`常见场景`、`实用工具`
+7. 再按自己的场景选择下面这些页面：
+   - [参数文件基础](hero/parameter-file-basics.md)
+   - [Raw I/O 参数详解](hero/raw-parameter-detail.md)
+   - [File System 参数详解](hero/filesystem-parameter-detail.md)
+   - [命令行参数详解](hero/execution-parameter-detail.md)
+   - [常见场景](hero/scenarios.md)
+   - [实用命令详解](hero/utility-functions-detail.md)
+8. 如果你想把教程和参考包、源码一起对照着看，再看 [附录](hero/appendix.md)
 
 如果你已经跑通过 `example1` 或 `example7`，可以直接从进阶营开始查阅。
 
@@ -49,6 +56,8 @@
   - 可用于确认参数解析、命令分发、工具入口和部分行为细节
 
 如果你的本地没有这两个目录，也不影响阅读站点正文；只是当你想对照官方样例和源码时，最好把它们准备好。
+
+如果你已经准备好这些资料，建议继续看 [附录](hero/appendix.md)，里面整理了参考包结构、源码入口和阅读建议。
 
 ## 本教程的使用方式
 
